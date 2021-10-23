@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using InAndOut.Data;
 using InAndOut.Models;
-using InAndOut.Data;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 
 namespace InAndOut.Controllers
