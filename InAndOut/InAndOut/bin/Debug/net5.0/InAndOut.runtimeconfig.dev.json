@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\stalg\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\stalg\\.nuget\\packages"
+    ]
+  }
+}
