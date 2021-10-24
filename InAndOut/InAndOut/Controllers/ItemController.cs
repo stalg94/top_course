@@ -20,10 +20,23 @@ namespace InAndOut.Controllers
             return View(objectList);
         }
 
+        // get create
         public IActionResult Create()
         {
 
             return View();
+        }
+
+
+        // POST create
+        [HttpPost]
+        [ValidateAntiForgeryToken] //для безопасности чтобы никто не мог менять код
+
+        public IActionResult Create(Item obj)
+        {
+            _db.Items.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
