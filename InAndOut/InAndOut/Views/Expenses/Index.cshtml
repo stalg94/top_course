@@ -19,14 +19,21 @@
                 <tr>
                     <th>Expense Name</th>
                     <th>Cost Amount</th>
+                    <th>Changes</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var expense in Model)
                 {
                     <tr>
-                        <td width="30%">@expense.ExpenseNane</td>
-                        <td width="30%">@expense.CostAmount</td>
+                        <td width="35%">@expense.ExpenseNane</td>
+                        <td width="35%">@expense.CostAmount</td>
+                        <td width="30%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Expenses" asp-action="Update" asp-route-Id="@expense.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Expenses" asp-action="Delete" asp-route-Id="@expense.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
 
                     </tr>
 

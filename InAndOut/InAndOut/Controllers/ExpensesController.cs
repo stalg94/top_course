@@ -1,18 +1,22 @@
 ﻿using InAndOut.Data;
 using InAndOut.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InAndOut.Controllers
 {
     public class ExpensesController : Controller
     {
-        private  readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
 
         public ExpensesController(ApplicationDbContext db)
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
             IEnumerable<Expense> objectList = _db.Expenses;
@@ -25,7 +29,6 @@ namespace InAndOut.Controllers
 
             return View();
         }
-
 
         // POST create
         [HttpPost]
@@ -42,5 +45,35 @@ namespace InAndOut.Controllers
             }
             return View(obj);
         } //sercice side validation
+
+        //GET  delete
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id==0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Expenses.Find(id);
+            if (obj==null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        //POST delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.Expenses.Find(id);
+            if (obj==null)
+            {
+                return NotFound();
+            }
+            _db.Expenses.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        } 
     }
 }

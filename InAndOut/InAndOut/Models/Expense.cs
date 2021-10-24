@@ -11,7 +11,7 @@ namespace InAndOut.Models
     {
         [Key]
         public int Id { get; set; }
-        [DisplayName("Expnese")]
+        [DisplayName("Expense")]
         [Required]
         public string ExpenseNane { get; set; }
         [Required]
