@@ -74,6 +74,37 @@ namespace InAndOut.Controllers
             _db.Expenses.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //GET  Update
+        public IActionResult Update(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Expenses.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        //POST Update
+        [HttpPost]
+        [ValidateAntiForgeryToken] //для безопасности чтобы никто не мог менять код
+
+        public IActionResult Update(Expense obj)
+        {
+            //првоерка на положительность
+            if (ModelState.IsValid)
+            {
+                _db.Expenses.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         } 
     }
 }
