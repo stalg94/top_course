@@ -33,9 +33,14 @@ namespace InAndOut.Controllers
 
         public IActionResult Create(Expense obj)
         {
-            _db.Expenses.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            //првоерка на положительность
+            if (ModelState.IsValid)
+            {
+                _db.Expenses.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        } //sercice side validation
     }
 }
