@@ -1,5 +1,6 @@
 ﻿using InAndOut.Data;
 using InAndOut.Models;
+using InAndOut.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -21,35 +22,51 @@ namespace InAndOut.Controllers
         public IActionResult Index()
         {
             IEnumerable<Expense> objectList = _db.Expenses;
+
+            foreach (var obj in objectList)
+            {
+                obj.ExpenseType = _db.ExpenseTypes.FirstOrDefault(u => u.Id == obj.ExpenseTypeId);
+            }
+
             return View(objectList);
         }
 
         // get create
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+            //IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+            //{
+            //    Text =i.Name,
+            //    Value = i.Id.ToString()
+            //});
+
+            //ViewBag.TypeDropDown = TypeDropDown;
+
+            ExpenseVM expenseVM = new ExpenseVM()
             {
-                Text =i.Name,
-                Value = i.Id.ToString()
-            });
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
 
-            ViewBag.TypeDropDown = TypeDropDown;
-
-            return View();
+            return View(expenseVM);
         }
 
         // POST create
         [HttpPost]
         [ValidateAntiForgeryToken] //для безопасности чтобы никто не мог менять код
 
-        public IActionResult Create(Expense obj)
+        public IActionResult Create(ExpenseVM obj)
         {
             //првоерка на положительность
             if (ModelState.IsValid)
             {
                 //obj.ExpenseRefId = 1;
 
-                _db.Expenses.Add(obj);
+                _db.Expenses.Add(obj.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -89,32 +106,44 @@ namespace InAndOut.Controllers
         //GET  Update
         public IActionResult Update(int? id)
         {
+
+            ExpenseVM expenseVM = new ExpenseVM()
+            {
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var obj = _db.Expenses.Find(id);
-            if (obj == null)
+
+            expenseVM.Expense = _db.Expenses.Find(id);
+            if (expenseVM.Expense == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(expenseVM);
         }
 
         //POST Update
         [HttpPost]
         [ValidateAntiForgeryToken] //для безопасности чтобы никто не мог менять код
 
-        public IActionResult Update(Expense obj)
+        public IActionResult Update(ExpenseVM obj)
         {
             //првоерка на положительность
             if (ModelState.IsValid)
             {
-                _db.Expenses.Update(obj);
+                _db.Expenses.Update(obj.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(obj.Expense);
         } 
     }
 }
