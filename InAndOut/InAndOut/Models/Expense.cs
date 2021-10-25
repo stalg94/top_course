@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InAndOut.Models
 {
@@ -17,6 +18,10 @@ namespace InAndOut.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage ="Amount must be greater than zero!")]
         public int CostAmount { get; set; }
+        [DisplayName("Expense Type")]
+        [ForeignKey("ExpenseTypeFK")]
+        public int ExpenseRefId { get; set; }
+        public virtual ExpenseType ExpenseType { get; set; }
 
     }
 }
