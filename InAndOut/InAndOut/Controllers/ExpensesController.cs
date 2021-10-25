@@ -39,6 +39,8 @@ namespace InAndOut.Controllers
             //првоерка на положительность
             if (ModelState.IsValid)
             {
+                obj.ExpenseRefId = 1;
+
                 _db.Expenses.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
