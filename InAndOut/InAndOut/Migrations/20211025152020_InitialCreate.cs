@@ -2,7 +2,7 @@
 
 namespace InAndOut.Migrations
 {
-    public partial class InititalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,8 +42,7 @@ namespace InAndOut.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExpenseNane = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CostAmount = table.Column<int>(type: "int", nullable: false),
-                    ExpenseRefId = table.Column<int>(type: "int", nullable: false),
-                    ExpenseTypeId = table.Column<int>(type: "int", nullable: true)
+                    ExpenseTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +52,7 @@ namespace InAndOut.Migrations
                         column: x => x.ExpenseTypeId,
                         principalTable: "ExpenseTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
